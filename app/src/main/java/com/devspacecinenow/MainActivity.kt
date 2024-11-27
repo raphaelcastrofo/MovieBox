@@ -45,13 +45,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CineNowTheme {
-                var nowPlayingMovies by remember { mutableStateOf <List<MovieDto>>(emptyList()) }
                 var upComingMovies by remember { mutableStateOf <List<MovieDto>>(emptyList()) }
+                var nowPlayingMovies by remember { mutableStateOf <List<MovieDto>>(emptyList()) }
+                var topRatedMovies by remember { mutableStateOf <List<MovieDto>>(emptyList())}
+                var popularMovies by remember { mutableStateOf <List<MovieDto>>(emptyList()) }
 
                 val apiService = RetrofitClient.retrofitInstance.create(ApiService::class.java)
+
                 val callNowPlaying = apiService.getNowPlayingMovies()
-
-
                 callNowPlaying.enqueue(object: Callback<MovieResponse>{
                     override fun onResponse(
                         call: Call<MovieResponse>,
@@ -83,6 +84,52 @@ class MainActivity : ComponentActivity() {
                             val movies = response.body()?.results
                             if (movies != null){
                                 upComingMovies = movies
+                            }
+                        }else {
+                            Log.d("MainActivity", "Request Error :: ${response.errorBody()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                        Log.d("MainActivity", "Network Error :: ${t.message}")
+
+                    }
+
+                })
+
+                val callTopRatedMovies = apiService.getTopRatedMovies()
+                callTopRatedMovies.enqueue(object : Callback<MovieResponse>{
+                    override fun onResponse(
+                        call: Call<MovieResponse>,
+                        response: Response<MovieResponse>
+                    ) {
+                        if(response.isSuccessful){
+                            val movies = response.body()?.results
+                            if (movies != null){
+                                topRatedMovies = movies
+                            }
+                        }else {
+                            Log.d("MainActivity", "Request Error :: ${response.errorBody()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                        Log.d("MainActivity", "Network Error :: ${t.message}")
+
+                    }
+
+                })
+
+                val callPopularMovies = apiService.getPopularMovies()
+                callPopularMovies.enqueue(object : Callback<MovieResponse>{
+                    override fun onResponse(
+                        call: Call<MovieResponse>,
+                        response: Response<MovieResponse>
+                    ) {
+                        if(response.isSuccessful){
+                            val movies = response.body()?.results
+                            if (movies != null){
+                                popularMovies = movies
                             }
                         }else {
                             Log.d("MainActivity", "Request Error :: ${response.errorBody()}")
@@ -132,6 +179,24 @@ class MainActivity : ComponentActivity() {
 
                             }
                         )
+
+
+                        MovieSession(
+                            label = "Top Rated",
+                            movieList = topRatedMovies,
+                            onClick = { movieClick ->
+
+                            }
+                        )
+
+                        MovieSession(
+                            label = "Popular",
+                            movieList = popularMovies,
+                            onClick = { movieClick ->
+
+                            }
+                        )
+
                     }
                 }
             }

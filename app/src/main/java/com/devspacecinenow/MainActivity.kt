@@ -165,7 +165,7 @@ class MainActivity : ComponentActivity() {
                         )
 
                         MovieSession(
-                            label = "Upcoming",
+                            label = "Upcoming00001",
                             movieList = upComingMovies,
                             onClick = { movieClick ->
 

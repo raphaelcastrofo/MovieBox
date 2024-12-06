@@ -1,7 +1,9 @@
 package com.devspacecinenow
 
+import android.adservices.adid.AdId
 import retrofit2.http.GET
 import retrofit2.Call
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -16,4 +18,7 @@ interface ApiService {
 
     @GET("top_rated?language=en-US&page=1")
     fun getTopRatedMovies(): Call<MovieResponse>
+
+    @GET("{movie_id}?language=en-US")
+    fun getMovieById(@Path("movie_id") movieId: String): Call<MovieDto>
 }

@@ -200,22 +200,6 @@ private fun MovieListContent(
 }
 
 
-@Composable
-private fun MovieList(
-    movieList: List<MovieDto>,
-    onClick: (MovieDto) -> Unit,
-) {
-
-    LazyRow {
-        items(movieList){
-            MovieItem(
-                movieDto = it,
-                onClick = onClick
-            )
-        }
-    }
-
-}
 
 @Composable
 private fun MovieSession (
@@ -243,6 +227,22 @@ private fun MovieSession (
     }
 }
 
+@Composable
+private fun MovieList(
+    movieList: List<MovieDto>,
+    onClick: (MovieDto) -> Unit,
+) {
+
+    LazyRow {
+        items(movieList){
+            MovieItem(
+                movieDto = it,
+                onClick = onClick
+            )
+        }
+    }
+
+}
 
 
 @Composable

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.devspacecinenow.ui.theme.CineNowTheme
 import retrofit2.Call
@@ -31,8 +33,10 @@ import retrofit2.Response
 import retrofit2.create
 
 @Composable
-
-fun MovieDetailScreen(movieId: String){
+fun MovieDetailScreen(
+    movieId: String,
+    navHostController: NavHostController,
+){
     var movieDto by remember { mutableStateOf<MovieDto?>(null) }
 
     val apiService = RetrofitClient.retrofitInstance.create(ApiService::class.java)
@@ -54,35 +58,29 @@ fun MovieDetailScreen(movieId: String){
         }
     )
     movieDto?.let{
+       Column (
+           modifier = Modifier.fillMaxSize()
+       ){
+           Row (
+               modifier = Modifier.fillMaxWidth(),
+               verticalAlignment = Alignment.CenterVertically
+           ){
+               IconButton(onClick = {
+                    navHostController.popBackStack()
+               }) {
+                   Icon(
+                       imageVector = Icons.Filled.ArrowBack,
+                       contentDescription = "Back Button"
+                   )
+               }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            IconButton(onClick = {
+               Text(
+                   modifier = Modifier.padding(start = 4.dp),
+                   text = it.title)
 
-            }) {
-
-            }
-
-            Text(
-                modifier = Modifier
-                    .padding(start = 4.dp),
-                text = it.title)
-
-        }
-
-        Image(
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = "Back Button"
-        )
-
-    }
-
-        MovieDetailContent(it)
+           }
+           MovieDetailContent(it)
+       }
     }
 }
 
@@ -100,14 +98,13 @@ private fun MovieDetailContent(movie: MovieDto){
             contentDescription = "${movie.title} Poster image",
 
         )
-
         Text(
             modifier = Modifier
                 .padding(16.dp),
-            fontSize = 16.sp ,
-            text = movie.overview)
+            fontSize = 16.sp,
+            text = movie.overview
+        )
     }
-
 }
 
 @Preview (showBackground = true)

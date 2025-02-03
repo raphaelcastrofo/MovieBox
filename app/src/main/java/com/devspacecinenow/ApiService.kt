@@ -1,6 +1,7 @@
 package com.devspacecinenow
 
-import android.adservices.adid.AdId
+import com.devspacecinenow.common.model.MovieDto
+import com.devspacecinenow.common.model.MovieResponse
 import retrofit2.http.GET
 import retrofit2.Call
 import retrofit2.http.Path

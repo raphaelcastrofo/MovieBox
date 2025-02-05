@@ -6,15 +6,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.devspacecinenow.detail.presentation.MovieDetailScreen
+import com.devspacecinenow.detail.presentation.ui.MovieDetailScreen
+import com.devspacecinenow.list.presentation.MovieListViewModel
 import com.devspacecinenow.list.presentation.ui.MovieListScreen
 
 @Composable
-fun CineNowApp(){
+fun CineNowApp(
+    listViewModel: MovieListViewModel
+){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "movieList"){
         composable(route = "movieList"){
-            MovieListScreen(navController)
+            MovieListScreen(navController, listViewModel)
         }
         composable(
             route = "movieDetail" + "/{itemId}",

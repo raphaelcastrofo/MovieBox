@@ -1,6 +1,7 @@
 package com.devspacecinenow.common.data
 
 import com.devspacecinenow.BuildConfig
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
@@ -28,7 +29,8 @@ object RetrofitClient {
     val retrofitInstance: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(httpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
+
 
 }

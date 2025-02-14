@@ -55,24 +55,10 @@ class MovieListViewModel (
     private fun fetchUpComingMovies(){
         viewModelScope.launch(Dispatchers.IO) {
             val response = listService.getUpComingMovies()
-            if (response.isSuccessful){
-                val movies = response.body()?.results
-                if (movies !=null){
-                    _uiUpComing.value = movies
-                }
-            } else {
-                Log.d("MovieListViewModel", "Request Error :: ${response.errorBody()}")
-            }
-        }
-    }
-
-    private fun fetchTopRatedMovies(){
-        viewModelScope.launch(Dispatchers.IO){
-            val response = listService.getTopRatedMovies()
-            if (response.isSuccessful){
+            if(response.isSuccessful){
                 val movies = response.body()?.results
                 if (movies != null){
-                    _uiTopRated.value = movies
+                    _uiUpComing.value = movies
                 }
             }else {
                 Log.d("MovieListViewModel", "Request Error :: ${response.errorBody()}")
@@ -81,15 +67,29 @@ class MovieListViewModel (
 
     }
 
+    private fun fetchTopRatedMovies(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = listService.getTopRatedMovies()
+            if(response.isSuccessful){
+                val movies = response.body()?.results
+                if (movies != null){
+                    _uiTopRated.value = movies
+                }
+            }else {
+                Log.d("MovieListViewModel", "Request Error :: ${response.errorBody()}")
+            }
+        }
+    }
+
     private fun fetchPopularMovies(){
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             val response = listService.getPopularMovies()
-            if (response.isSuccessful){
+            if(response.isSuccessful){
                 val movies = response.body()?.results
                 if (movies != null){
                     _uiPopular.value = movies
                 }
-            }else{
+            }else {
                 Log.d("MovieListViewModel", "Request Error :: ${response.errorBody()}")
             }
         }

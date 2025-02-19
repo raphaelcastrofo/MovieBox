@@ -57,7 +57,7 @@ fun MovieListScreen(
 @Composable
 private fun MovieListContent(
     topRatedMovies: List<MovieDto>,
-    nowPlayingMovies: List<MovieDto>,
+    nowPlayingMovies: MovieListUiState,
     upComingMovies: List<MovieDto>,
     popularMovies: List<MovieDto>,
     onClick: (MovieDto) -> Unit,

@@ -13,3 +13,6 @@ data class MovieDto (
     val posterFullPath: String
         get() = "https://image.tmdb.org/t/p/w300$postPath"
 }
+
+
+
